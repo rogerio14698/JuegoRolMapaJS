@@ -1,0 +1,43 @@
+
+
+.fondoSalaEntrada{
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    width: 100%;
+}
+.fondoSalaPasillo, .sala1, .sala2, .sala3, .sala4, .salaTienda, .salaPuerta, .salaAnteSalaJefe, .salaJefeFondo{
+    height: clamp(380px, 80vh, 780px);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #111;
+}
+
+
+.tituloSala{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: var(--transparencia);
+}
+.heroe img{
+    width: 200px;
+}
+.heroePasillo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: 9rem;
+}
+
+.heroeCentrado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15%;
+    padding: 1rem;
+    
+}

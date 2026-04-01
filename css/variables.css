@@ -1,0 +1,49 @@
+
+
+:root{
+    /*Colores*/
+        /*Rojos*/
+        --colorPrimario: #da3636;
+        --colorPrimarioOscuro: #a82828;
+
+        --colorPrimarioHover: rgb(146, 3, 3);
+        --colorPrimarioMuyOscuro: #781f1f;
+
+        --colorSecundario: rgb(255, 126, 51);
+        --colorSecundarioTitulo: #ff8c42;
+        --colorSecundarioParrafo: #ff8c42;
+
+        --colorTerciario: yellowgreen;
+        --colorTerciarioHover: rgb(154, 255, 0);
+        --colorTerciarioOscuro: rgb(1, 70, 1);
+
+        --colorTerciarioTrasparencia: rgba(10, 148, 10, 0.63);
+
+        --colorCuartenario: rgb(0, 0, 163);
+        --colorCuartenarioClaro: rgb(88, 88, 223);
+        --colorCuartenarioHover: rgb(0, 0, 255);
+
+        --colorBorde: #045caf;
+
+        --colorHeroePrimario: #1f4e78;
+
+        --colorNeutro1: #fff;
+        --colorNeutro2: #000;
+        --colorNeutro3: #ccc;
+        --colorNeutro4: #eee;
+
+        --transparencia: rgba(0, 0, 0, 0.5);
+
+        --gradiente: linear-gradient(145deg, #2b1f2a, #3a2b39, #2b1f2a);
+        
+
+
+
+    /*Fuente*/
+    --fuenteTitulo: '"Cinzel", serif;'
+    --fuenteParrafo: '"EB Garamond", serif;'
+
+
+    /*Tamaños*/
+
+}

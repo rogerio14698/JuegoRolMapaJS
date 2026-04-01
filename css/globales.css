@@ -1,0 +1,40 @@
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+a {
+    text-decoration: none;
+}
+
+h1,h2,h3,h4,h5,h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+/**/
+
+
+
+
+.contendor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--colorFondo);
+}
+
+.fuenteTitulo {
+    font-size: 2.5em;
+    color: var(--colorSecundarioTitulo);
+    margin-bottom: 20px;
+}
+.fuenteParrafo{
+    font-size: 1.2em;
+    color: var(--colorSecundarioParrafo);
+    margin-bottom: 20px;
+}
