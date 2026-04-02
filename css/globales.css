@@ -17,14 +17,31 @@ h1,h2,h3,h4,h5,h6, p {
 
 /**/
 
+body{
+    background-color: #333;
+}
+.centrarPagina{
 
+}
 
-
-.contendor {
+.centrarPagina{
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.centrarPagina > *{
+    width: 100%;
+}
+
+.contenedor {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
     background-color: var(--colorFondo);
 }
 

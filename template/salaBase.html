@@ -10,16 +10,14 @@
 </head>
 
 <body>
-    <main class="contenedor" id="entrada">
+    <main class="contenedor centrarPagina" id="entrada">
         <!-- La clase sala representa la sala principal y se encarda de cargar el fondo de la sala-->
-        <section class="fondoSala salaEntrada">
-            <div class="tituloSala ">
-                <h1 class="fuenteTitulo">SALA BASE</h1>
-                <p class="fuenteParrafo">El aire se ha vuelto más denso de repente, se avecina combates!</p>
+         <div class="tituloSala ">
+                <h1 class="fuenteTitulo" id="nombreSala"></h1>
+                <p class="fuenteParrafo" id="descripcionSala"></p>
             </div>
-
-            <section class="heroe heroeEntrada">
-
+        <section class="fondoSala fondoSalaEntrada salaEntrada">
+            <section class="heroe">
                 <picture>
                     <source srcset="../img/heroe.png" type="image/png">
                     <img src="../img/heroe.png" alt="Imagen-del-heroe" class="imagenHeroe">
@@ -69,7 +67,7 @@
 
 
 
-
+    <!--Como -->
     <script type="module" src="../app.js"></script>
 </body>
 

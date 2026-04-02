@@ -1,17 +1,31 @@
 
 
-.fondoSalaEntrada{
-    background-size: cover;
-    background-position: center;
-    height: 80vh;
-    width: 100%;
+.inicio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 50vh;
+    gap: 2rem;
+    background:var(--colorNeutro5);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid var(--colorBorde);
+    box-shadow: var(--boxShadow);
 }
-.fondoSalaPasillo, .sala1, .sala2, .sala3, .sala4, .salaTienda, .salaPuerta, .salaAnteSalaJefe, .salaJefeFondo{
-    height: clamp(380px, 80vh, 780px);
+
+.inicio h1{
+    color: var(--colorSecundarioTitulo);
+    text-decoration: double underline;
+}
+
+.fondoSalaEntrada, .fondoSalaPasillo, .sala1, .sala2, .sala3, .sala4, .salaTienda, .salaPuerta, .salaAnteSalaJefe, .salaJefeFondo{
+    height: 65vh;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #111;
+    box-shadow: var(--boxShadow);
+    background-color: var(--colorNeutro5);
 }
 
 
@@ -22,22 +36,24 @@
     flex-direction: column;
     background: var(--transparencia);
 }
+.heroe{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    margin-left: 40px;
+}
 .heroe img{
     width: 200px;
+    box-shadow: var(--boxShadow);
+    border: 1px solid #fefefe;
+
 }
+
 .heroePasillo{
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     margin-left: 9rem;
-}
-
-.heroeCentrado{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 15%;
-    padding: 1rem;
-    
 }

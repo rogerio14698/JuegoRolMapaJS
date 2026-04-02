@@ -31,10 +31,13 @@
         --colorNeutro2: #000;
         --colorNeutro3: #ccc;
         --colorNeutro4: #eee;
+        --colorNeutro5: #222;
+
+        --boxShadow: 0 4px 8px rgba(255, 255, 255, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
 
         --transparencia: rgba(0, 0, 0, 0.5);
 
-        --gradiente: linear-gradient(145deg, #2b1f2a, #3a2b39, #2b1f2a);
+        
         
 
 
