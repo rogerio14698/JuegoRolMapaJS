@@ -1,6 +1,7 @@
 
 //Importamos el mapa y los id de las salas 
 import { idSalas, mapa } from './mapa.js';
+import { personajes } from './personajes.js';
 
 
 //Defimmos las rutas de todas las salas
@@ -210,11 +211,11 @@ export function mostrarSala() {
     const salaId = parseInt(parametrosURL.get('id')) || idSalas.entrada; //Entrada por defecto si no hay id en la URL
     const sala = mapa[salaId];
 
-    if(!sala) return; //Si la sala no existe, no hacemos nada.
+    if (!sala) return; //Si la sala no existe, no hacemos nada.
     //CAmbiar el fondo dinamicamente segun la sala en la que estamos.
     const fondoSala = document.querySelector('.fondoSala');
 
-    if(fondoSala && sala.imagenSala) {
+    if (fondoSala && sala.imagenSala) {
         //Aplicamos el estilo directamente. 
         //Como en el mapa definimos la ruta de la imagen, la ponemos como fondo directamente.
         fondoSala.style.backgroundImage = `url(${sala.imagenSala})`;
@@ -235,7 +236,7 @@ export function mostrarSala() {
 
     //Aqui podemos ver en que sala nos encontramos.
     let textoFinal = sala.descripcion;
-    
+
     //3. Logica para salas normales 1 entrada 1 salida.
     const salidasDisponibles = obtenerSalidasDisponibles(sala);
 
@@ -270,5 +271,69 @@ export function mostrarSala() {
 
     //5. Rendizar el texto final en el template.
     descripcionSalaEl.textContent = textoFinal;
+
+    //Añadir la lógica de aparicion de enemigos segun la probabilidad del archivo mapa.js
+    const seccionEnemigo = document.querySelector('.enemigo');
+
+    //Solo ejecutamos la lógica de enemigos si la sección existe en el DOM
+    if (seccionEnemigo) {
+        //Tiramos un numero aleatorio entre 0-1 para ver si aparece el monstruo.
+        const dado = Math.random();
+
+        if (sala.probEnemigos > 0 && dado <= sala.probEnemigos && sala.posiblesEnemigos?.length > 0) {
+            // APARECE ENEMIGO
+            seccionEnemigo.style.display = "block";
+
+            // Elegimos un enemigo al azar de la lista de la sala
+            const nombreEnemigoAzar = sala.posiblesEnemigos[Math.floor(Math.random() * sala.posiblesEnemigos.length)];
+
+            // Buscamos en monstruos o en vendedor (que es objeto suelto)
+            let datosEnemigo = personajes.monstruos.find(m => m.id === nombreEnemigoAzar);
+            if (!datosEnemigo && personajes.vendedor.id === nombreEnemigoAzar) {
+                datosEnemigo = personajes.vendedor;
+            }
+
+            if (datosEnemigo) {
+                const nivelEnemigoEl = document.getElementById("nivelEnemigo");
+                const vidaEnemigoEl = document.getElementById("vidaEnemigo");
+                const ataqueEnemigoEl = document.getElementById("ataqueEnemigo");
+                const defensaEnemigoEl = document.getElementById("defensaEnemigo");
+                const imgEnemigoEl = document.querySelector(".imagenEnemigo");
+                const tituloEnemigoEl = seccionEnemigo.querySelector(".tituloNombre");
+
+                if (tituloEnemigoEl) tituloEnemigoEl.textContent = datosEnemigo.nombre;
+                if (nivelEnemigoEl) nivelEnemigoEl.textContent = `Nombre: ${datosEnemigo.nombre}`;
+                if (vidaEnemigoEl) vidaEnemigoEl.textContent = `Vida: ${datosEnemigo.salud}`;
+                if (ataqueEnemigoEl) ataqueEnemigoEl.textContent = `Ataque: ${datosEnemigo.ataque}`;
+                if (defensaEnemigoEl) defensaEnemigoEl.textContent = `Defensa: ${datosEnemigo.defensa ?? 0}`;
+                if (imgEnemigoEl) imgEnemigoEl.src = datosEnemigo.imagen;
+                
+                //Actualizamos el historial con la aparicion del enemigo.
+                //Poner el condicional si es vendedor o monstruo.
+                if (datosEnemigo.id !== personajes.vendedor.id) {
+                    actualizarHistorial(`¡Cuidado! Un ${datosEnemigo.nombre} ha aparecido.`);
+                } else {
+                    actualizarHistorial(`¡Bienvenido! El ${datosEnemigo.nombre} te saluda: "Pasen y vean mis artículos!"`);
+                    //Aqui vamos a poner la logica de compra de articulos, peor eso más adelante, ultima cosa que hacer aun.
+                }
+            }
+        } else {
+            // NO HAY ENEMIGO
+            seccionEnemigo.style.display = "none";
+        }
+    }
+
+    // --- RELLENAR UI DEL JUGADOR ---
+    const jugador = personajes.jugador;
+    const nivelHeroeEl = document.getElementById("nivelHeroe");
+    const vidaHeroeEl = document.getElementById("vidaHeroe");
+    const ataqueHeroeEl = document.getElementById("ataqueHeroe");
+    const defensaHeroeEl = document.getElementById("defensaHeroe");
+
+    if (nivelHeroeEl) nivelHeroeEl.textContent = `Nombre: ${jugador.nombre} (Niv. ${jugador.nivel})`;
+    if (vidaHeroeEl) vidaHeroeEl.textContent = `Vida: ${jugador.salud}`;
+    if (ataqueHeroeEl) ataqueHeroeEl.textContent = `Ataque: ${jugador.ataque}`;
+    if (defensaHeroeEl) defensaHeroeEl.textContent = `Defensa: ${jugador.defensa}`;
+
 
 }
