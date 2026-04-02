@@ -146,6 +146,35 @@ function obtenerSalidasDisponibles(sala) {
     return Object.keys(sala.ubicacion).filter((direccion) => sala.ubicacion[direccion] !== -1);
 }
 
+export function configurarBotonBuscar() {
+    const btnBuscar = document.getElementById('btn-buscar');
+
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const salaId = parseInt(parametrosURL.get('id')) || idSalas.entrada;
+    const sala = mapa[salaId];
+
+    if (!btnBuscar || !sala) return;
+
+    let yaBusco = false;
+
+    btnBuscar.addEventListener('click', () => {
+        if (yaBusco) {
+            actualizarHistorial('Ya has buscado en esta sala.');
+            return;
+        }
+
+        yaBusco = true;
+        const oroEncontrado = sala.encontrarOro ?? 0;
+
+        if (oroEncontrado > 0) {
+            personajes.jugador.oro += oroEncontrado;
+            actualizarHistorial(`Has encontrado ${oroEncontrado} monedas de oro. Total: ${personajes.jugador.oro}`);
+        } else {
+            actualizarHistorial('No has encontrado nada en esta sala.');
+        }
+    });
+}
+
 export function configurarMovimientoPorComando() {
     const inputComando = document.getElementById('comando');
 
