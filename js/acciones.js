@@ -147,37 +147,35 @@ function obtenerSalidasDisponibles(sala) {
 
 export function configurarMovimientoPorComando() {
     const inputComando = document.getElementById('comando');
-    const salaActual = document.querySelector('main')?.id;
 
-    if (!inputComando || !salaActual || !(salaActual in idSalas)) {
-        return;
-    }
+    // Leemos la sala actual desde los parámetros de URL, igual que mostrarSala()
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const salaId = parseInt(parametrosURL.get('id')) || idSalas.entrada;
+    const sala = mapa[salaId];
+
+    if (!inputComando || !sala) return;
 
     inputComando.addEventListener('keydown', (event) => {
         //Si presiona enter, se procesa el comando
-        if (event.key !== 'Enter') {
-            return;
-        }
+        if (event.key !== 'Enter') return;
 
         //Prevenimos que el formulario se envie y la pagina se recargue
         event.preventDefault();
 
-
         //Normalizamos el comando introducido por el usuario
         const comandoNormalizado = normalizarComando(inputComando.value);
-        const salaId = idSalas[salaActual];
-        const sala = mapa[salaId];
-
-
-        if (!comandoNormalizado) {
-            actualizarHistorial('Escribe una direccion o una sala antes de moverte.');
-            return;
-        }
-
+        //VEr esto ?¿? que falla
         const destinoId = obtenerDestinoPorComando(sala, comandoNormalizado);
+
+
+
 
         if (destinoId === null) {
             actualizarHistorial(`No entiendo el comando "${inputComando.value}".`);
+            return;
+        }
+        if (destinoId === -1) {
+            actualizarHistorial('Te has topado con una pared amigo, no estas en Hogwarts rey.');
             return;
         }
 
@@ -186,67 +184,91 @@ export function configurarMovimientoPorComando() {
             return;
         }
 
-        if (destinoId === -1) {
-            actualizarHistorial('Te has topado con una pared amigo, no estas en Hogwarts rey.');
+        if (!comandoNormalizado) {
+            actualizarHistorial('Escribe una direccion o una sala antes de moverte.');
             return;
         }
+        //Fin de verificacion del comando
 
-        const rutaDestino = obtenerRutaSala(destinoId);
+        //Ir al destino.
 
-        if (!rutaDestino) {
-            actualizarHistorial('La sala destino no tiene una pagina asociada.');
-            return;
+        if (destinoId && destinoId !== 'ambigua' && destinoId !== -1) {
+            actualizarHistorial(`Te mueves hacia ${inputComando.value}.`);
+            inputComando.value = '';
+
+            //Cambio Clave: Redirigimos a la misma página pero con el nuevo id.
+            //Hacemos un epa! jeje , estoy tengo nuevo id y cargo otra vez la misma página.
+            window.location.href = window.location.pathname + '?id=' + destinoId;
         }
-
-        actualizarHistorial(`Te mueves hacia ${inputComando.value}.`);
-        inputComando.value = '';
-        window.location.href = rutaDestino;
     });
 }
 
 export function mostrarSala() {
-    //mostrar la sala al arrancar el juego -> sala actual es la entrada
-    const salaActual = document.querySelector("main").id; //Esto selecciona el id del main, que es la sala en la que se encuentra.
-    const salaId = idSalas[salaActual]; //Obtenemos el id de la sala actual a partir del idSalas
-    const sala = mapa[salaId]; //Obtenemos la sala actual a partir del mapa y el id de la sala.
+
+    //1. Obtener Id de la URL
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const salaId = parseInt(parametrosURL.get('id')) || idSalas.entrada; //Entrada por defecto si no hay id en la URL
+    const sala = mapa[salaId];
+
+    if(!sala) return; //Si la sala no existe, no hacemos nada.
+    //CAmbiar el fondo dinamicamente segun la sala en la que estamos.
+    const fondoSala = document.querySelector('.fondoSala');
+
+    if(fondoSala && sala.imagenSala) {
+        //Aplicamos el estilo directamente. 
+        //Como en el mapa definimos la ruta de la imagen, la ponemos como fondo directamente.
+        fondoSala.style.backgroundImage = `url(${sala.imagenSala})`;
+
+    }
+
+    const nombreSalaEl = document.getElementById("nombreSala");
+    const descripcionSalaEl = document.getElementById("descripcionSala");
+
+    if (!nombreSalaEl || !descripcionSalaEl) {
+        return;
+    }
+
+    //2. Inyectar textos en el template.
+    nombreSalaEl.textContent = sala.nombre; //Mostramos el nombre de la sala en el titulo.
+    descripcionSalaEl.textContent = sala.descripcion; //Mostramos la descripcion de la sala en el parrafo.
+    // Lógica de descripcion de la sala y las salidas disponibles.
 
     //Aqui podemos ver en que sala nos encontramos.
-    document.getElementById("nombreSala").textContent = sala.nombre; //Mostramos el nombre de la sala en el titulo.
-    document.getElementById("descripcionSala").textContent = sala.descripcion; //Mostramos la descripcion de la sala en el parrafo.
-
-
-
+    let textoFinal = sala.descripcion;
+    
+    //3. Logica para salas normales 1 entrada 1 salida.
     const salidasDisponibles = obtenerSalidasDisponibles(sala);
 
     if (salidasDisponibles.length > 0 && sala.nombre !== "Pasillo") {
-        document.getElementById("descripcionSala").textContent += ` Salidas disponibles: ${salidasDisponibles.join(', ')}.`;
+        textoFinal += ` Salidas disponibles: ${salidasDisponibles.join(', ')}.`;
     }
 
-    /*Aqui lo que hacemos como tenemos varios pasillos es un bucle que nos diga a donde pdemos ir */
+    //4. Lógica para los pasillos, ya que pueden tener varias salaidas
     if (sala.nombre === "Pasillo") {
-        let descripcionSala = "";
+        //Limpiamos la descripcion para el pasillo.
+        let descripcionPasillo = '';
 
 
         for (let direccion in sala.ubicacion) {
-            //Obtenermos la sala a la que se puede ir; 
-            //Esto lo hago para comprobar si es tienda o no.
             const destino = sala.ubicacion[direccion];
-            /*Vale entonces aqui tiene que ir en orden: 1º comprueba si es tienda: 2º si es pasillo si 3º resto */
 
             if (destino === idSalas.tienda) {
-                descripcionSala += ` Hay una puerta al ${direccion} que lleva a la tienda, `;
+                descripcionPasillo += `Hay una puerta al ${direccion} que lleva a la tienda. `;
             } else if (destino === idSalas.entrada) {
-                descripcionSala += ` Hay una puerta al ${direccion} que vuelve a la entrada, `;
+                descripcionPasillo += `Hay una puerta al ${direccion} que vuelve a la entrada. `;
             } else if ([idSalas.pasilloA, idSalas.pasilloB, idSalas.pasilloC, idSalas.pasilloD].includes(destino)) {
-                descripcionSala += ` puedes continuar por el ${direccion} que lleva a otro pasillo, `;
+                descripcionPasillo += `Puedes continuar por el ${direccion} hacia otro tramo del pasillo. `;
             } else if (destino !== -1) {
-                descripcionSala += ` Hay una puerta al ${direccion} que lleva a otra sala, `;
+                descripcionPasillo += `Hay una puerta al ${direccion} que lleva a una sala. `;
             } else {
-                descripcionSala += ` Te has topado con una pared al ${direccion}`;
+                descripcionPasillo += `Al ${direccion} hay una pared sólida. `;
             }
-           
         }
-        document.getElementById("descripcionSala").textContent = descripcionSala;
+        //Asignamos descripcion al pasillo.
+        textoFinal = descripcionPasillo;
     }
+
+    //5. Rendizar el texto final en el template.
+    descripcionSalaEl.textContent = textoFinal;
 
 }

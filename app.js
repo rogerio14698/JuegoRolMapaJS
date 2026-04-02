@@ -1,33 +1,43 @@
-/*Entonces vamos hacer el codigo js modular, ya que va a ser mas facil de mantener 
-a largo plazo y más facil de vizualizar */
-
-
-//Aqui se carga la informacion de la sala actual.
 import { configurarMovimientoPorComando, mostrarSala } from './js/acciones.js';
 import { renderizarTemplate } from './js/cargarTemplates.js';
 
-//Si existen los elementos de titulo/descripcion, mostramos datos de la sala.
-if (document.getElementById("nombreSala") && document.getElementById("descripcionSala")) {
-	mostrarSala();
-}
-
+// 1. Lógica del botón de inicio ,no depende de los templates
 const btnInicio = document.getElementById("btnInicio");
-
-//Btn de inicio del index.html que redirige a la sala de entrada.
 if (btnInicio) {
-	btnInicio.addEventListener("click", () => {
-		window.location.href = "salas/entrada.html";
-	});
+    btnInicio.addEventListener("click", () => {
+        window.location.href = "salas/entrada.html";
+    });
 }
 
-
+// 2. Función principal que construye la página
 async function iniciarPantalla() {
-	await renderizarTemplate('main', '../template/templateMain.html');
-	//Primero renderizamos el template, luego registramos los listeners que dependen de ese HTML.
-	await renderizarTemplate('contenedor-consola', '../template/templateConsola.html');
-	configurarMovimientoPorComando();
+    try {
+        const contenedorPrincipal = document.getElementById('contenedorPrincipal');
+        const contenedorConsola = document.getElementById('contenedorConsola');
+
+        if (!contenedorPrincipal || !contenedorConsola) {
+            return;
+        }
+
+        // A. Renderizamos el esqueleto de la sala
+        // IMPORTANTE: Asegúrate de que en tu sala (ej. entrada.html) haya un id="contenedorPrincipal"
+        await renderizarTemplate('contenedorPrincipal', '../template/templateMain.html');
+        
+        // B. Renderizamos la consola dentro del hueco que dejó el primer template
+        await renderizarTemplate('contenedorConsola', '../template/templateConsola.html');
+
+        // C. AHORA que los elementos existen en el DOM, llenamos los datos
+        // Ya no necesitas el "if (document.getElementById...)", lo llamamos directamente
+        mostrarSala();
+
+        // D. Registramos los eventos del teclado
+        configurarMovimientoPorComando();
+
+        console.log("Sistema cargado: Sala y Consola listas.");
+    } catch (error) {
+        console.error("Error cargando la interfaz:", error);
+    }
 }
 
-
-cargarEscenaDinámica();
+// Ejecutamos la carga
 iniciarPantalla();

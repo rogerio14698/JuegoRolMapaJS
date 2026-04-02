@@ -24,15 +24,15 @@
         --colorCuartenarioHover: rgb(0, 0, 255);
 
         --colorBorde: #045caf;
-
         --colorHeroePrimario: #1f4e78;
 
+        
         --colorNeutro1: #fff;
         --colorNeutro2: #000;
         --colorNeutro3: #ccc;
         --colorNeutro4: #eee;
         --colorNeutro5: #222;
-
+        --colorNeutro6: #2e2e2e;
         --boxShadow: 0 4px 8px rgba(255, 255, 255, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
 
         --transparencia: rgba(0, 0, 0, 0.5);

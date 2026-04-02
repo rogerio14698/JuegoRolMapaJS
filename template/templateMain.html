@@ -1,19 +1,37 @@
 <template>
-    <main class="contenedor centrarPagina" id="">
-        <!-- La clase sala representa la sala principal y se encarda de cargar el fondo de la sala-->
-        <div class="tituloSala ">
-            <h1 class="fuenteTitulo" id="nombreSala"></h1>
-            <p class="fuenteParrafo" id="descripcionSala"></p>
-        </div>
-        <section class="fondoSala fondoSalaEntrada salaEntrada">
-            <section class="heroe">
-                <picture>
-                    <source srcset="../img/heroe.png" type="image/png">
-                    <img src="../img/heroe.png" alt="Imagen-del-heroe" class="imagenHeroe">
-                </picture>
-            </section>
+    <!-- La clase sala representa la sala principal y se encarda de cargar el fondo de la sala-->
+    <div class="tituloSala" id="tituloSala">
+        <h1 class="fuenteTitulo" id="nombreSala"></h1>
+        <p class="fuenteParrafo" id="descripcionSala"></p>
+    </div>
+    <section class="fondoSala">
+        <section class="heroe">
+            <picture>
+                <source srcset="../img/heroe.png" type="image/png">
+                <img src="../img/heroe.png" alt="Imagen-del-heroe" class="imagenHeroe">
+            </picture>
+            <div class="atributos">
+                <h2>Atributos</h2>
+                <p class="fuenteParrafo" id="nivelHeroe">Nombre: Manolo</p>
+                <p class="fuenteParrafo" id="vidaHeroe">vida: 100</p>
+                <p class="fuenteParrafo" id="ataqueHeroe">ataque: 10</p>
+                <p class="fuenteParrafo" id="defensaHeroe">defensa: 5</p>
+            </div>
+        </section>
+        <section class="enemigo">
+            <picture>
+                <source srcset="../img/demogorgon.png" type="image/png">
+                <img src="../img/demogorgon.png" alt="Imagen-del-enemigo" class="imagenEnemigo">
+            </picture>
+            <div class="atributos">
+                <h2>Atributos</h2>
+                <p class="fuenteParrafo" id="nivelEnemigo">Nombre: Enemigo</p>
+                <p class="fuenteParrafo" id="vidaEnemigo">vida: 100</p>
+                <p class="fuenteParrafo" id="ataqueEnemigo">ataque: 10</p>
+                <p class="fuenteParrafo" id="defensaEnemigo">defensa: 5</p>
+            </div>
 
         </section>
-        <section id="contenedor-consola"></section>
-    </main>
+
+    </section>
 </template>

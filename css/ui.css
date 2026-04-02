@@ -19,13 +19,20 @@
     text-decoration: double underline;
 }
 
-.fondoSalaEntrada, .fondoSalaPasillo, .sala1, .sala2, .sala3, .sala4, .salaTienda, .salaPuerta, .salaAnteSalaJefe, .salaJefeFondo{
+/*Aqui el JS inserta de forma dinamica el background-image segun la sala en la que estamos*/
+.fondoSala {
     height: 65vh;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: var(--boxShadow);
     background-color: var(--colorNeutro5);
+    position: relative;
+    /* Flex para posicionar al héroe: izquierda + centrado vertical */
+    display: flex;
+    align-items: center;
+    /*Aqui separamos el héroe y el enemigo*/
+    justify-content: space-between;
 }
 
 
@@ -39,15 +46,42 @@
 .heroe{
     display: flex;
     justify-content: flex-start;
-    align-items: center;
-    height: 100%;
-    margin-left: 40px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 20px;
+    max-width: 200px;
+
 }
-.heroe img{
+.enemigo{
+     display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 20px;
+    margin-right: 20px;
+    max-width: 200px;
+
+}
+.atributos{
+    display: flex;
+    width:100%;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px 0 0 15px;
+    gap: 5px;
+    background-color: var(--colorNeutro6);
+    border: 1px solid var(--colorBorde);
+    box-shadow: var(--boxShadow);
+}
+.atributos h2{
+    color: var(--colorSecundarioTitulo);
+    text-decoration: underline double;
+}
+.heroe img, .enemigo img{
     width: 200px;
     box-shadow: var(--boxShadow);
-    border: 1px solid #fefefe;
-
+    border: 1px solid var(--colorBorde);
 }
 
 .heroePasillo{
