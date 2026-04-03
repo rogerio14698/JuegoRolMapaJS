@@ -135,7 +135,8 @@ export const mapa = {
         descripcion: "Un demonio se acerca entre las sombras, parece que se va a sentar en su trono!",
         imagenSala: "../img/salaFinal.png",
         ubicacion: {norte: -1, sur: -1, este: idSalas.anteSalaJefe, oeste: -1 },
-        probEnemigos: 1,
+        //Probabilidad del 2% del jefe Final aparezca en esta sala
+        probEnemigos: 0.02,
         encontrarOro: 10,
         posiblesEnemigos: ["lilih"],
     },

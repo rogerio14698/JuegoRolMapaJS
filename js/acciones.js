@@ -169,6 +169,8 @@ export function configurarBotonBuscar() {
         if (oroEncontrado > 0) {
             personajes.jugador.oro += oroEncontrado;
             actualizarHistorial(`Has encontrado ${oroEncontrado} monedas de oro. Total: ${personajes.jugador.oro}`);
+            const oroHeroeEl = document.getElementById('oroHeroe');
+            if (oroHeroeEl) oroHeroeEl.textContent = `Oro: ${personajes.jugador.oro}`;
         } else {
             actualizarHistorial('No has encontrado nada en esta sala.');
         }
@@ -359,10 +361,13 @@ export function mostrarSala() {
     const ataqueHeroeEl = document.getElementById("ataqueHeroe");
     const defensaHeroeEl = document.getElementById("defensaHeroe");
 
+    const oroHeroeEl = document.getElementById("oroHeroe");
+
     if (nivelHeroeEl) nivelHeroeEl.textContent = `Nombre: ${jugador.nombre} (Niv. ${jugador.nivel})`;
     if (vidaHeroeEl) vidaHeroeEl.textContent = `Vida: ${jugador.salud}`;
     if (ataqueHeroeEl) ataqueHeroeEl.textContent = `Ataque: ${jugador.ataque}`;
     if (defensaHeroeEl) defensaHeroeEl.textContent = `Defensa: ${jugador.defensa}`;
+    if (oroHeroeEl) oroHeroeEl.textContent = `Oro: ${jugador.oro}`;
 
 
 }
